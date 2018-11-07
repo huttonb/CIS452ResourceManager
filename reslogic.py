@@ -21,16 +21,23 @@ class Process:
         self.requesting = False
         self.holding = []
 
-    def request_resource(self, res):
-        self.requesting = True
-
+    # Checks to see if the process can take resource, if it can, it does
+    # There are two reasons for why the resource can't be taken
+    # 1. The process is currently requesting another resource
+    # 2. The resource is already being used by a different process.
     def take_resource(self, res):
+        if (self.requesting == True):
+            return False
+        self.requesting = True
         if (res.check_held() == False):
             res.hold_taken()
             self.holding.append(res)
             print(self.name + " has taken hold of resource " + res.name)
+            self.requesting = False
         else:
             print(self.name + " can't hold " + res.name + ", it is already being used by another process")
+            return False
+        return True
 
     def release_resource(self, res):
         if res in self.holding:
@@ -47,14 +54,6 @@ class Process:
 
 class Resource_Manager:
     def __init__(self):
-       # r1 = Resource(1)
-       # p1 = Process(1)
-       # p1.take_resource(r1)
-       # p1.print_resources()
-       # p1.take_resource(r1)
-       # p1.release_resource(r1)
-       # p1.print_resources()
-
         list = self.read_file(r'input3a.data')
 
         numProcesses = list[0]
@@ -70,12 +69,14 @@ class Resource_Manager:
         for action in list:
             if len(action) == 3:
                 if action[1] == "requests":
-                    processes.get(action[0]).take_resource(resources.get(action[2]))
+                    f1 = processes.get(action[0]).take_resource(resources.get(action[2]))
+                    if (not f1):
+                        #Add action here for if the resource is unable to be taken by the process
+                        #Probably what happens is that it's added to a list for the resource for
+                        # processes that are currently waiting to get at it
+                    
                 elif action[1] == "releases":
                     processes.get(action[0]).release_resource(resources.get(action[2]))
-
-
-        #int(list[0]
 
 
     def read_file(self, string):
