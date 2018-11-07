@@ -3,7 +3,7 @@ class Resource:
         self.held = False
         print("Resource " + str(rid) + " initialized")
         self.name = "R" + str(rid)
-        self.process_queue
+        self.process_queue = []
 
     def waiting_processes(self, proc):
         self.process_queue.append(proc)
@@ -16,6 +16,9 @@ class Resource:
 
     def hold_released(self):
         self.held = False
+    def check_proc_queue(self):
+        if (len(self.process_queue) > 0):
+            self.process_queue.pop(0).take_resource(self)
 
 
 class Process:
@@ -23,7 +26,7 @@ class Process:
         self.name = "P" + str(pid)
         print("Process " + str(pid) + " initialized")
         self.requesting = False
-        self.resource_queue
+        self.resource_queue = []
         self.holding = []
     def wanted_resources(self, res):
         self.resource_queue.append(res)
@@ -32,17 +35,29 @@ class Process:
     # 1. The process is currently requesting another resource
     # 2. The resource is already being used by a different process.
     def take_resource(self, res):
-        if (self.requesting == True):
+        if (self.requesting == res):
+            if (res.check_held() == False):
+                res.hold_taken()
+                self.holding.append(res)
+                print(self.name + " has taken hold of newly released resource " + res.name)
+                self.requesting = False
+            else:
+                print(self.name + " can't hold " + res.name + ", it is already being used by another process")
+                return False
+
+        elif (self.requesting != False):
+            res.waiting_processes(self)
             return False
-        self.requesting = True
-        if (res.check_held() == False):
-            res.hold_taken()
-            self.holding.append(res)
-            print(self.name + " has taken hold of resource " + res.name)
-            self.requesting = False
         else:
-            print(self.name + " can't hold " + res.name + ", it is already being used by another process")
-            return False
+            self.requesting = res
+            if (res.check_held() == False):
+                res.hold_taken()
+                self.holding.append(res)
+                print(self.name + " has taken hold of resource " + res.name)
+                self.requesting = False
+            else:
+                print(self.name + " can't hold " + res.name + ", it is already being used by another process")
+                return False
         return True
 
     def release_resource(self, res):
@@ -50,6 +65,7 @@ class Process:
             res.hold_released()
             self.holding.remove(res)
             print(self.name + " has released resource " + res.name)
+            res.check_proc_queue()
         else:
             print(self.name + " is not holding " + res.name)
 
@@ -74,15 +90,18 @@ class Resource_Manager:
             resources[("r" + str(i))] = r1
         for action in list:
             if len(action) == 3:
+                process_name = action[0]
+                resource_name = action[2]
                 if action[1] == "requests":
-                    f1 = processes.get(action[0]).take_resource(resources.get(action[2]))
+                    f1 = processes.get(process_name).take_resource(resources.get(resource_name))
                     if (not f1):
                         #Add action here for if the resource is unable to be taken by the process
                         #Probably what happens is that it's added to a list for the resource for
                         # processes that are currently waiting to get at it
-                    
+                        processes.get(process_name).wanted_resources(resources.get(resource_name))
+                        resources.get(resource_name).waiting_processes(processes.get(process_name))
                 elif action[1] == "releases":
-                    processes.get(action[0]).release_resource(resources.get(action[2]))
+                    processes.get(process_name).release_resource(resources.get(resource_name))
 
 
     def read_file(self, string):
