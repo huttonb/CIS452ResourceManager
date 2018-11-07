@@ -3,6 +3,10 @@ class Resource:
         self.held = False
         print("Resource " + str(rid) + " initialized")
         self.name = "R" + str(rid)
+        self.process_queue
+
+    def waiting_processes(self, proc):
+        self.process_queue.append(proc)
 
     def check_held(self):
         return self.held
@@ -19,8 +23,10 @@ class Process:
         self.name = "P" + str(pid)
         print("Process " + str(pid) + " initialized")
         self.requesting = False
+        self.resource_queue
         self.holding = []
-
+    def wanted_resources(self, res):
+        self.resource_queue.append(res)
     # Checks to see if the process can take resource, if it can, it does
     # There are two reasons for why the resource can't be taken
     # 1. The process is currently requesting another resource
