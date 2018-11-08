@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="468d71c3-d6ad-4c60-a7eb-689cff07358a" name="Default" comment="Added resource and process list">
-      <change beforePath="" afterPath="$PROJECT_DIR$/testinput3.data" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/controller.py" afterPath="$PROJECT_DIR$/controller.py" />
-      <change beforePath="$PROJECT_DIR$/graphui.py" afterPath="$PROJECT_DIR$/graphui.py" />
       <change beforePath="$PROJECT_DIR$/reslogic.py" afterPath="$PROJECT_DIR$/reslogic.py" />
+      <change beforePath="$PROJECT_DIR$/testinput3.data" afterPath="$PROJECT_DIR$/testinput3.data" />
     </list>
     <list id="2b774ef2-d6eb-425a-bc1b-50b7b3f51396" name="adding graph color features" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -64,11 +61,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="reslogic.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="reslogic.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/reslogic.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-950">
-              <caret line="84" column="47" lean-forward="true" selection-start-line="84" selection-start-column="47" selection-end-line="84" selection-end-column="47" />
+            <state relative-caret-position="444">
+              <caret line="154" column="13" lean-forward="false" selection-start-line="154" selection-start-column="13" selection-end-line="154" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -77,21 +74,31 @@
       <file leaf-file-name="testinput3.data" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/testinput3.data">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="13" column="14" lean-forward="false" selection-start-line="13" selection-start-column="14" selection-end-line="13" selection-end-column="14" />
+            <state relative-caret-position="136">
+              <caret line="8" column="14" lean-forward="false" selection-start-line="8" selection-start-column="14" selection-end-line="8" selection-end-column="14" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="controller.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="controller.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controller.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="7" lean-forward="false" selection-start-line="12" selection-start-column="7" selection-end-line="12" selection-end-column="7" />
+            <state relative-caret-position="476">
+              <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="codecs.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/codecs.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="185">
+              <caret line="319" column="0" lean-forward="false" selection-start-line="319" selection-start-column="0" selection-end-line="319" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -111,8 +118,8 @@
       <file leaf-file-name="input3a.data" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/input3a.data">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="238">
+              <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -130,6 +137,7 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>resource_queue</find>
+      <find>requesting =</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -140,9 +148,10 @@
       <list>
         <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/graphui.py" />
+        <option value="$PROJECT_DIR$/controller.py" />
+        <option value="$PROJECT_DIR$/input3a.data" />
         <option value="$PROJECT_DIR$/testinput3.data" />
         <option value="$PROJECT_DIR$/reslogic.py" />
-        <option value="$PROJECT_DIR$/controller.py" />
       </list>
     </option>
   </component>
@@ -377,14 +386,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/controller.py</url>
-          <line>25</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-      </breakpoints>
-      <option name="time" value="12" />
+      <option name="time" value="20" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -407,14 +409,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/input3a.data">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/PycharmProjects/CIS343zork/venv/Lib/site-packages/networkx/drawing/nx_pylab.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="157">
@@ -430,14 +424,6 @@
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/codecs.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="308" column="0" lean-forward="false" selection-start-line="308" selection-start-column="0" selection-end-line="308" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -459,29 +445,45 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/reslogic.py">
+    <entry file="file://$PROJECT_DIR$/input3a.data">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-950">
-          <caret line="84" column="47" lean-forward="true" selection-start-line="84" selection-start-column="47" selection-end-line="84" selection-end-column="47" />
+        <state relative-caret-position="238">
+          <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/testinput3.data">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="14" lean-forward="false" selection-start-line="13" selection-start-column="14" selection-end-line="13" selection-end-column="14" />
+        <state relative-caret-position="136">
+          <caret line="8" column="14" lean-forward="false" selection-start-line="8" selection-start-column="14" selection-end-line="8" selection-end-column="14" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/controller.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="7" lean-forward="false" selection-start-line="12" selection-start-column="7" selection-end-line="12" selection-end-column="7" />
+        <state relative-caret-position="476">
+          <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/codecs.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="185">
+          <caret line="319" column="0" lean-forward="false" selection-start-line="319" selection-start-column="0" selection-end-line="319" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/reslogic.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="444">
+          <caret line="154" column="13" lean-forward="false" selection-start-line="154" selection-start-column="13" selection-end-line="154" selection-end-column="13" />
+          <folding />
         </state>
       </provider>
     </entry>

@@ -120,10 +120,10 @@ class Resource_Manager:
                 # check for a deadlock.
                 waiting_proc = 0
                 for i in self.processes.values():
-                    if i.requesting == True:
+                    if i.requesting != False:
                         waiting_proc += 1
                     if waiting_proc >= 2:
-                        self.lock_check()
+                        self.deadlock_check()
                         break;
 
 
@@ -131,9 +131,9 @@ class Resource_Manager:
     def update(self, process, resource, connection):
         self.observer.update(process,resource,connection)
 
-    def lock_check(self):
+    def deadlock_check(self):
         for i in self.processes.values():
-            if i.holding:
+            if i.requesting:
                if not self.lock_check(i, len(self.processes.values())):
                     print ("Deadlock detected.")
                     break;
