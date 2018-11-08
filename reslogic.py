@@ -75,34 +75,43 @@ class Process:
 
 
 class Resource_Manager:
-    def __init__(self):
-        list = self.read_file(r'input3a.data')
-
-        numProcesses = list[0]
-        numResources = list[1]
-        processes = {}
-        resources = {}
+    def __init__(self, obs):
+        self.list = self.read_file(r'input3a.data')
+        self.observer = obs
+        numProcesses = self.list[0]
+        numResources = self.list[1]
+        self.processes = {}
+        self.resources = {}
         for i in range (0, int(numProcesses[0])):
             p1 = Process(i)
-            processes[("p" + str(i))] = p1
+            self.processes[("p" + str(i))] = p1
         for i in range(0, int(numResources[0])):
             r1 = Resource(i)
-            resources[("r" + str(i))] = r1
-        for action in list:
+            self.resources[("r" + str(i))] = r1
+
+    def commit_actions(self):
+        for action in self.list:
             if len(action) == 3:
                 process_name = action[0]
                 resource_name = action[2]
                 if action[1] == "requests":
-                    f1 = processes.get(process_name).take_resource(resources.get(resource_name))
+                    f1 = self.processes.get(process_name).take_resource(self.resources.get(resource_name))
                     if (not f1):
                         #Add action here for if the resource is unable to be taken by the process
                         #Probably what happens is that it's added to a list for the resource for
                         # processes that are currently waiting to get at it
-                        processes.get(process_name).wanted_resources(resources.get(resource_name))
-                        resources.get(resource_name).waiting_processes(processes.get(process_name))
+                        self.processes.get(process_name).wanted_resources(self.resources.get(resource_name))
+                        self.resources.get(resource_name).waiting_processes(self.processes.get(process_name))
+                        self.update(process_name, resource_name, "requests")
+                    else:
+                        self.update(process_name, resource_name, "connects")
                 elif action[1] == "releases":
-                    processes.get(process_name).release_resource(resources.get(resource_name))
+                    self.processes.get(process_name).release_resource(self.resources.get(resource_name))
+                    self.update(process_name, resource_name, "releases")
 
+    #Update sends an update to the controller, contains the resource, process, and type of connection
+    def update(self, process, resource, connection):
+        self.observer.update(process,resource,connection)
 
     def read_file(self, string):
         resourcefile = open(string, "r")
@@ -117,5 +126,3 @@ class Resource_Manager:
         resourcefile.close()
         return list2
 
-
-rm = Resource_Manager()
