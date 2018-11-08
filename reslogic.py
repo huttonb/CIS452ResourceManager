@@ -1,8 +1,9 @@
 class Resource:
     def __init__(self, rid):
         self.held = False
+        self.heldby = False
         print("Resource " + str(rid) + " initialized")
-        self.name = "R" + str(rid)
+        self.name = "r" + str(rid)
         self.process_queue = []
 
     def waiting_processes(self, proc):
@@ -11,19 +12,23 @@ class Resource:
     def check_held(self):
         return self.held
 
-    def hold_taken(self):
+    def hold_taken(self, proc):
+        self.heldby = proc
         self.held = True
 
     def hold_released(self):
         self.held = False
+
     def check_proc_queue(self):
         if (len(self.process_queue) > 0):
-            self.process_queue.pop(0).take_resource(self)
+            return self.process_queue.pop(0).take_resource(self)
+
+
 
 
 class Process:
     def __init__(self, pid):
-        self.name = "P" + str(pid)
+        self.name = "p" + str(pid)
         print("Process " + str(pid) + " initialized")
         self.requesting = False
         self.resource_queue = []
@@ -35,9 +40,9 @@ class Process:
     # 1. The process is currently requesting another resource
     # 2. The resource is already being used by a different process.
     def take_resource(self, res):
-        if (self.requesting == res):
+        if self.requesting == res:
             if (res.check_held() == False):
-                res.hold_taken()
+                res.hold_taken(self)
                 self.holding.append(res)
                 print(self.name + " has taken hold of newly released resource " + res.name)
                 self.requesting = False
@@ -51,7 +56,7 @@ class Process:
         else:
             self.requesting = res
             if (res.check_held() == False):
-                res.hold_taken()
+                res.hold_taken(self)
                 self.holding.append(res)
                 print(self.name + " has taken hold of resource " + res.name)
                 self.requesting = False
@@ -61,13 +66,14 @@ class Process:
         return True
 
     def release_resource(self, res):
-        if res in self.holding:
-            res.hold_released()
-            self.holding.remove(res)
-            print(self.name + " has released resource " + res.name)
-            res.check_proc_queue()
-        else:
-            print(self.name + " is not holding " + res.name)
+        if self.requesting == False:
+            if res in self.holding:
+                res.hold_released()
+                self.holding.remove(res)
+                print(self.name + " has released resource " + res.name)
+                return res.check_proc_queue()
+            else:
+                print(self.name + " is not holding " + res.name)
 
     def print_resources(self):
         for r in self.holding:
@@ -76,7 +82,7 @@ class Process:
 
 class Resource_Manager:
     def __init__(self, obs):
-        self.list = self.read_file(r'input3a.data')
+        self.list = self.read_file(r'testinput3.data')
         self.observer = obs
         numProcesses = self.list[0]
         numResources = self.list[1]
@@ -97,21 +103,60 @@ class Resource_Manager:
                 if action[1] == "requests":
                     f1 = self.processes.get(process_name).take_resource(self.resources.get(resource_name))
                     if (not f1):
-                        #Add action here for if the resource is unable to be taken by the process
-                        #Probably what happens is that it's added to a list for the resource for
-                        # processes that are currently waiting to get at it
                         self.processes.get(process_name).wanted_resources(self.resources.get(resource_name))
                         self.resources.get(resource_name).waiting_processes(self.processes.get(process_name))
                         self.update(process_name, resource_name, "requests")
                     else:
                         self.update(process_name, resource_name, "connects")
+                # After a process has released a resource, check to see if next acquisition is successful
+                # for the graph
                 elif action[1] == "releases":
-                    self.processes.get(process_name).release_resource(self.resources.get(resource_name))
+                    if (self.processes.get(process_name).release_resource(self.resources.get(resource_name))):
+                        # When releasing this one we send the resource and process in opposite order.
+                        self.update(self.resources.get(resource_name).heldby.name, resource_name, "reqrelease")
+                        self.update(self.resources.get(resource_name).heldby.name, resource_name, "connects")
                     self.update(process_name, resource_name, "releases")
+                # Check to see if there are more than two processes waiting, if there is
+                # check for a deadlock.
+                waiting_proc = 0
+                for i in self.processes.values():
+                    if i.requesting == True:
+                        waiting_proc += 1
+                    if waiting_proc >= 2:
+                        self.lock_check()
+                        break;
+
 
     #Update sends an update to the controller, contains the resource, process, and type of connection
     def update(self, process, resource, connection):
         self.observer.update(process,resource,connection)
+
+    def lock_check(self):
+        for i in self.processes.values():
+            if i.holding:
+               if not self.lock_check(i, len(self.processes.values())):
+                    print ("Deadlock detected.")
+                    break;
+
+
+    # lock_check recursively checks for a deadlock
+    # It goes down by going to the process the current processes requested resource is being held by
+    # If that process is free, it's not a deadlock and returns false, if it's in hold as well it continues
+    # the recursion, once loops hits 0, it comes back as a deadlock, as that means it is impossible for the cycle
+    # to be anything but a deadlock.
+    # True: No deadlock
+    # False: Deadlock
+    def lock_check(self, proc, loops):
+        #if requested resources current process is free
+        if not proc.requesting.heldby.requesting:
+            return True
+        elif loops == 0:
+            return False
+        else:
+            return self.lock_check(proc.requesting.heldby, loops-1)
+
+
+
 
     def read_file(self, string):
         resourcefile = open(string, "r")
